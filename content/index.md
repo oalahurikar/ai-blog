@@ -1,6 +1,6 @@
 ---
-title: Welcome to Quartz
+title: Welcome to AI blog series
 ---
 
-This is a blank Quartz installation.
+My learnings in AI
 See the [documentation](https://quartz.jzhao.xyz) for how to get started.
