@@ -1,0 +1,2 @@
+[[Gradient descent]]
+In practice, each step will look like −η∇C−η∇C where the constant ηη is known as the learning rate. The larger it is, the bigger your steps, which means you might approach the minimum faster, but there’s a risk of overshooting and oscillating a lot around that minimum.
