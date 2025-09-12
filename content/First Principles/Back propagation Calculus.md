@@ -114,3 +114,97 @@ graph LR
   style DZ1 fill:#d3d3f2
   style DZ2 fill:#d3d3f2
 ```
+
+
+## Back propagation enables us to simultaneously compute _all_ the partial derivatives ∂C/∂wj using just one forward pass through the network
+
+### **Gradient = Chain of Derivatives**
+You want:
+
+$$
+
+\frac{\partial C}{\partial w^l_{jk}} = \frac{\partial C}{\partial z^l_j} \cdot \frac{\partial z^l_j}{\partial w^l_{jk}}
+
+$$
+
+You **reuse** intermediate values (activations, derivatives, errors):
+$$ z^l_j = \sum_k w^l_{jk} a^{l-1}_k + b^l_j $$$$ a^l_j = \sigma(z^l_j) $$$$ \delta^l_j = \frac{\partial C}{\partial z^l_j} $$So:
+$$
+
+\frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_k \cdot \delta^l_j
+
+$$
+This is just an **outer product** of:
+- Activations from layer $$ l-1 $$
+- Errors from layer $$ l $$You compute these **layer-wise**, not per-weight — giving you **all gradients in one shot**.
+
+---
+
+### In back propagation is it both forward and back ward pass or just backward pass? What is forward and what is backward pass?
+
+## **🔁 Simple Analogy First**
+Think of your neural network like a **factory**:
+- 🚚 **Input (raw material)** goes in
+- 🛠️ Each layer **transforms it**
+- 🎯 Final layer gives a **product (prediction)**
+
+Then you ask:
+> “How good is the product?”
+> If it’s off, you figure out:
+> “Which part of the factory messed up and by how much?”
+
+---
+
+## **🧠 Definitions**
+### **✅** **Forward Pass**
+> **Compute predictions** using current weights and activations.
+
+For input $$ x $$, at each layer:
+
+$$
+z^l = W^l a^{l-1} + b^l
+$$
+$$
+a^l = \sigma(z^l)
+$$Final output:
+$$
+\hat{y} = a^L
+$$
+Then compute the **loss**:
+$$
+C = \text{Loss}(\hat{y}, y)
+$$
+🧠 **Key output** of forward pass:
+- Activations $$ a^l $$- Pre-activations $$ z^l $$- Loss $$ C $$
+---
+
+### **🔁**  **Backward Pass (Backpropagation)**
+> **Compute gradients** of loss w.r.t. weights and biases using **chain rule**.
+
+It starts at output layer:
+$$
+\delta^L = \nabla_a C \odot \sigma’(z^L)
+$$
+
+Then recursively propagates backward:
+$$
+\delta^l = \left( W^{l+1} \right)^T \delta^{l+1} \odot \sigma’(z^l)
+$$And uses those to compute:
+$$
+\frac{\partial C}{\partial W^l} = \delta^l (a^{l-1})^T
+$$
+
+$$
+
+\frac{\partial C}{\partial b^l} = \delta^l
+
+$$
+
+🧠 **Key output** of backward pass:
+- All gradients needed to update parameters
+
+|**Stage**|**What Happens**|**Used For**|
+|---|---|---|
+|Forward Pass|Compute $$ a^l, z^l $$ and final loss $$ C $$|Model prediction|
+|Backward Pass|Compute $$ \delta^l $$ and $$ \partial C/\partial W, b $$|Weight updates|
+|Gradient Descent|Use gradients to update weights|Learning|
