@@ -1,0 +1,4 @@
+
+ Existing LLMs can be adapted to support human-robot interaction based on natural language, essentially making it easier to control a robot through written or verbal instructions, in any human language, and allowing them to respond to humans accordingly.
+
+Another family of generative models are language-vision models, that are trained on text/image pairs or annotated videos found on the Internet, and that can be used to generate synthetic images and videos from text prompts [36]. These models can also be applied to robotics, for example, to improve object recognition in manipulation and navigation tasks, and allow tasks to be specified in terms of what can be seen by the robot. A new generation of large visual models can be purposely built for robotics, trained not (or not exclusively) on text/image pairs from the Internet, but on navigation datasets such as those described in the previous section, produced by cameras during actual navigation in real environments.
