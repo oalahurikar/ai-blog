@@ -1,3 +1,5 @@
+[[Learning is slow for sigmoid]]
+
 >[!info] Vanishing gradients occur because of **repeated multiplication of small derivatives** (via the chain rule)
 
 In backpropagation, gradients are passed backward from output to input.

@@ -3,6 +3,7 @@
 Reference:
 - https://www.3blue1brown.com/lessons/backpropagation-calculus#title
 
+Information flows **output → hidden → input** during the backward pass.
 ## **🏎️ Why is Backpropagation “Fast”?**
 
 Prior to backpropagation, one could compute gradients via **finite differences**, i.e., slightly change each weight, rerun the network, and see how the output changes. But that’s **computationally expensive**:
