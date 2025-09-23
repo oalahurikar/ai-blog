@@ -182,7 +182,7 @@ $$
 ### **🔁**  **Backward Pass (Backpropagation)**
 > **Compute gradients** of loss w.r.t. weights and biases using **chain rule**.
 
-It starts at output layer:
+It starts at output layer: [[Delta error]]
 $$
 \delta^L = \nabla_a C \odot \sigma’(z^L)
 $$

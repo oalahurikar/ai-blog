@@ -1,4 +1,4 @@
-
+[[Activation function]]
 >[!info] Cost function is specially designed to measure how bad the network is at classifying the training examples.
 
 Following are different cost functions.
@@ -10,7 +10,7 @@ $C = \frac{1}{2}(y - a)^2$
 $C = -\frac{1}{n} \sum_{i=1}^n \Big[ y^{(i)} \log a^{(i)} + \big(1 - y^{(i)}\big)\log \big(1 - a^{(i)}\big) \Big]$
 where $a$ is the neuron’s output, and $y$ is the desired output.
 
-**Zero when predictions are correct:** If the network’s output matches the desired target (say y=1,a≈1or y=0,a≈0), the log terms vanish, so the cost tends toward 0. That matches our intuition that “better predictions = smaller cost”. We get low surprise if the output is what we expect, and high surprise if the output is unexpected.
+**Zero when predictions are correct:** If the network’s output matches the desired target (say y=1,a≈1 or y=0,a≈0), the log terms vanish, so the cost tends toward 0. That matches our intuition that “better predictions = smaller cost”. We get low surprise if the output is what we expect, and high surprise if the output is unexpected.
 
 >Cross-entropy is positive, and tends toward zero as the neuron gets better at computing the desired output, y, for all training inputs, x. These are both properties we'd intuitively expect for a cost function.
 

@@ -6,14 +6,14 @@ In backpropagation, gradients are passed backward from output to input.
 Then gradients **shrink layer by layer**, especially in deep networks → early layers learn **very slowly or not at all**.
 
 Gradient Magnitude
-│
+ │.          *    *   *.   *
 │     *
 │    * 
 │   *  
 │  *   
 │ *    
 │*     
-└──────────────────────▶ Layer Depth (Output ➝ Input)
+└───────────▶ Layer Depth (Output ➝ Input)
      L   L-1   L-2  ... 1
  _how the **magnitude of gradients** (or delta values $\delta^l$) **decrease as we go backward through the layers**_
 

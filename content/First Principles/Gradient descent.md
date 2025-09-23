@@ -1,5 +1,5 @@
 [[Learning Rate]]
-[[Back propagation Calculus]]
+[[Back propagation calculus]]
 [[NN Learning]]
 
 Gradient descent Vs Mini batch Stochastic Gradient descent

@@ -1,5 +1,5 @@
 [[Gradient descent]]
-[[Back propagation Calculus]]
+[[Back propagation calculus]]
 [[NN Learning]]
 
 In backpropagation, we define the _error_ at a neuron in layer _l_ as
