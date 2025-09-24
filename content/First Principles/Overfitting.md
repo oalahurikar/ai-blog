@@ -22,25 +22,87 @@ If you collect many measurements, the true signal is consistent, but the noise s
 
 ### How to _identify_ overfitting?
 
+**Train vs Val loss (by epochs)**  
+The validation curve bottoms out, then creeps up while training loss keeps falling → classic overfitting onset.
 ![[Pasted image 20250924125309.png]]
-- **Train vs Validation/Test performance gap**
-    - Training error or loss is very low (model fits training well)
-    - Validation/test error starts to worsen (or doesn’t improve) while training error keeps improving
-    - On a plot of loss vs epochs: validation loss bottoms out then begins increasing, while training loss continues downward. [Google for Developers+1](https://developers.google.com/machine-learning/crash-course/overfitting/overfitting?utm_source=chatgpt.com)
 
-- **High variance**    
-    - Predictions are unstable: small changes in input cause large changes in output
-    - The model is overly sensitive to small fluctuations in input
+**Complexity curve (by model degree)**  
+As degree rises (Complexity of neural network), **train MSE** keeps dropping, but **val/test MSE** turn up → model is fitting noise.
+![[Pasted image 20250924130527.png]]
 
-- **Complexity metrics**    
-    - A model with far more parameters relative to data (i.e. high capacity) is more prone to overfitting. [Wikipedia+1](https://en.wikipedia.org/wiki/Overfitting?utm_source=chatgpt.com)
-    - If the model’s effective degrees of freedom are too high.
+**Cross-validation (CV) variance**  
+The boxplot shows higher/less stable fold errors for the high-degree model → **high variance** behavior.
 
-- **Cross‐validation behavior**
-    - You might see that folds of cross-validation produce very different models/performance
-    - The average validation error is much worse than training error.
+![[Pasted image 20250924143125.png]]
 
-- **Unexpected feature importances or coefficients**    
-    - The model may latch onto spurious features that make no intuitive sense, especially in small datasets
-    - Sometimes looking at weights or feature importances can reveal over reliance.
+What cross-validation does
+- You split your dataset into several folds.
+- Train on some folds, validate on the rest, rotate.
+- This gives you multiple validation errors for the _same_ model.
+
+What “variance” means here
+- If the model is **stable**, its validation error should be about the same no matter which folds you trained on.
+- If the model is **unstable (high variance)**, then performance jumps around depending on the exact data subset:
+    - Sometimes validation error is small.
+    - Other times it’s large.
+
+That’s what we saw in the **boxplot**:
+- **Degree 3 (simple model):** all folds give similar errors → low variance.
+- **Degree 15 (complex model):** fold errors are spread out → high variance.
+
+---
 ### Why use validation_data to prevent overfitting rather than test_data?
+
+Roles of the three data sets
+- **Training set** → used to _fit_ model parameters (weights).
+- **Validation set** → used to _tune_ decisions during training (when to stop, which hyperparameters to pick).
+- **Test set** → used _once at the very end_ to report unbiased performance.
+## **How validation data is actually used inside training?**
+Training loop without validation
+- Epoch 1 → update weights on training set.
+- Epoch 2 → update weights on training set.
+- … keep going until some fixed number of epochs.
+- Risk: you don’t know when overfitting starts.
+
+Training loop **with validation**
+Here’s the typical cycle:
+1. **Forward/backprop on training set** → update weights.
+2. **At the end of each epoch**, run the _current model_ on the validation set (no weight updates, just measure error).
+3. **Record validation loss/accuracy** alongside training loss.
+4. Use it to make decisions:
+    - **Early stopping**: if validation loss stops improving for N epochs, halt training.
+    - **Hyperparameter tuning**: compare models with different learning rates, depths, or dropout rates on validation scores. Pick the best one.
+    - **Regularization feedback**: if validation loss diverges while training loss falls, you know you need more regularization or data augmentation.
+
+Validation is like a **coach watching from the sidelines**:
+- You (the model) practice on training drills.
+- After each drill (epoch), the coach gives feedback on a fresh set (validation).
+- The coach decides when you’re peaking — before you get sloppy by memorizing drills.
+
+---
+
+## Regularization
+Regularization helps reduce overfitting by penalizing complexity, steering the model toward simpler functions that capture the signal, not the noise.
+>[!info] Regularization = any technique that discourages the model from becoming too complex.
+>Mathematically, we add a penalty to the cost function that makes “too flexible” or “too large” solutions less attractive.
+### Why do we need it?
+- Overfitting happens when the model bends itself to match noise in training data.
+- Regularization acts like a “discipline rule”:
+    - “Don’t let weights grow too big.”
+    - “Don’t rely on one feature too much.”
+    - “Don’t memorize every detail.”
+- This forces the model to find simpler patterns → better generalization.
+
+Imagine you’re fitting a curve through points:
+- Without regularization: the curve can wiggle wildly to hit every point (including noisy outliers).
+- With regularization: we say “wiggles cost extra.” The best curve will trade off: it won’t hit every point perfectly, but it’ll stay smoother → closer to the true signal.
+
+Regularization **reshapes the cost function**:
+- Without it → many equally good, wild solutions.
+- With it → best solution is the one that’s not only accurate, but also simple (small weights, smooth function).
+### Common types
+1. **L2 regularization (Ridge)**
+    - Add penalty $λ∑wi2$
+    - Pushes weights to be small and spread out.
+    - Keeps model smooth.
+
