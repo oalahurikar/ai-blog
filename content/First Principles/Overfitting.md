@@ -10,8 +10,8 @@ Imagine you’re measuring the height of a person:
 
 If you collect many measurements, the true signal is consistent, but the noise scatters around it.
 
-![[images/Pasted image 20250924114413.png]]
-- **Blue curve** = the **signal** (the true underlying law, y=sin⁡(x)y=sin(x)).
+![[Pasted image 20250924114413.png]]
+- **Blue curve** = the **signal** (the true underlying law, y=sin⁡(x).
 - **Green X’s** = what the signal would be at sampled points, if there were no measurement error.
 - **Red dots** = the **noisy observations** we actually see after adding random fluctuations.
 
@@ -21,6 +21,8 @@ If you collect many measurements, the true signal is consistent, but the noise s
 
 
 ### How to _identify_ overfitting?
+
+![[Pasted image 20250924125309.png]]
 - **Train vs Validation/Test performance gap**
     - Training error or loss is very low (model fits training well)
     - Validation/test error starts to worsen (or doesn’t improve) while training error keeps improving

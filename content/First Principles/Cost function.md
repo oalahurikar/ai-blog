@@ -14,7 +14,7 @@ where:
 
 **Why its cost function:**
 Function penalizes the model more strongly when it is **confident but wrong**.
-![[images/Pasted image 20250924065014.png]]
+![[Pasted image 20250924065014.png]]
 - If the network assigns **high probability** ($a^L_y \approx 1$) to the correct class, then $-\ln a^L_y$ is **close to 0** → low cost.
 - If the network assigns **low probability** ($a^L_y \approx 0$) to the correct class, then $-\ln a^L_y$ becomes **very large** → high cost
 #### **Connection to Cross-Entropy:**
@@ -65,7 +65,7 @@ The logarithm has two key properties:
     - Probabilities of independent events multiply, but logs let us add them.
     - That makes math neat for averaging over many training examples.
 
-| ![[images/Pasted image 20250922062038.png]] | ![[images/Pasted image 20250922062051.png]] |
+| ![[Pasted image 20250922062038.png]] | ![[Pasted image 20250922062051.png]] |
 | ------------------------------------------- | ------------------------------------------- |
 _That steep “blow up” is exactly why logs are used—it forces the network to really avoid assigning near-zero probability to the correct class._
 - The **absolute error** curve (LHS) is a straight line going gently from 1 → 0 as predictions improve.    
