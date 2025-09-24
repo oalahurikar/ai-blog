@@ -1,6 +1,5 @@
 [[Cost function]]
 
-
 # Log-likelihood cost function
 
 
