@@ -1,6 +1,6 @@
 [[Activation function]]
 >[!info] Cost function is specially designed to measure how bad the network is at classifying the training examples.
->A good cost should (i) be low when the model is right and confident, (ii) be high when it’s wrong.
+>A good cost function should be low when the model is right and confident (high), when it’s wrong.
 
 Following are different cost functions.
 ### **Log-likelihood cost function**

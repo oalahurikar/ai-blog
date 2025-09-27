@@ -2,22 +2,16 @@
 Using the chain rule and vectorization, backprop does this efficiently:
 
 - Gradients of cost w.r.t. output layer are calculated.
-    
 - Then, errors are **propagated backwards**, layer by layer, using matrix operations:
-    
-    - δ^l = ((W^{l+1})^T δ^{l+1}) ⊙ σ′(z^l)
-        
-    
+    - $δ^l = ((W^{l+1})^T δ^{l+1}) ⊙ σ′(z^l)$
 - Weight gradients are just:
-    
-    - ∂C/∂W = a^{l-1} * δ^l
+    - ∂C/∂W = $a^{l-1} * δ^l$
 
 > **Why do you think the errors (δ) are defined in terms of ∂C/∂z rather than ∂C/∂a (activations)?**
 
 > Think from a chain rule and gradient flow perspective. How does that simplify computations?
 
 ### 🎯 Goal
-
 Minimize the cost function $C$ by adjusting weights and biases using gradient descent.
 
 ---

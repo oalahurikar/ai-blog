@@ -86,7 +86,6 @@ $$
 
 This is why backpropagation is exponentially faster than finite difference methods.
 
-
 ```mermaid
 graph LR
   %% Forward Pass
@@ -121,7 +120,6 @@ graph LR
 
 ### **Gradient = Chain of Derivatives**
 You want:
-
 $$
 
 \frac{\partial C}{\partial w^l_{jk}} = \frac{\partial C}{\partial z^l_j} \cdot \frac{\partial z^l_j}{\partial w^l_{jk}}

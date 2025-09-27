@@ -1,11 +1,80 @@
 [[Cost function]]
 
-# Log-likelihood cost function
+>[!quote]
+>> The purpose of the activation function is to introduce non-linearity into the network … without a non-linear activation function … the network would behave just like a single-layer perceptron ($y = W x + b$).
+>> And: Without non-linear activation function there is no need of deep network because a combination of linear functions can be reduced to a single linear function.
+### What happens without an activation function (or using linear ones)
+Consider a neural network built of layers where **every single layer** is purely linear. That is, each neuron just does: $y = W x + b$
+with no nonlinearity in between.
+- Layer 1: $x \mapsto W_1 x + b_1$
+- Layer 2: $(W_1 x + b_1) \mapsto W_2 (W_1 x + b_1) + b_2 = (W_2 W_1) x + (W_2 b_1 + b_2)$
+- And so on…
+You can see by induction that a composition of linear transformations is itself a linear transformation. So **no matter how many layers** you stack, the whole network reduces to one big linear map from input to output.
+That means:
+- You lose all depth advantage.
+- You cannot model any non-linear relationships.
+- You might as well have a single-layer linear model (e.g. logistic regression or linear regression, depending on loss) to achieve exactly the same result.
 
+>Thus, to gain expressive power — to approximate complex, nonlinear functions — we must break this linearity somewhere. That’s exactly what **activation functions (nonlinear ones)** do.
+### Why do we need activation function in neural network?
+Beyond just nonlinearity, activation functions serve several practical and theoretical roles:
+1. **Allow modeling of nonlinear patterns**
+    Real-world data (images, audio, language, sensor data) often has patterns that are nonlinear: boundaries, curves, interactions. Activation functions let the network fit such patterns. 
+2. **Enable gradient-based learning (backpropagation)**
+    A good activation function is differentiable. That lets us compute gradients (via chain rule) and update weights. If an activation is non differentiable everywhere, training by gradient descent becomes problematic. 
+3. **Control signal scale and stability**
+    Activation functions (especially bounded ones like sigmoid or tanh) can help restrain large values, keep signals in a controlled range, and avoid numerical blowups. They impose nonlinear “squashing” or rectification which helps stabilize training.
+4. **Introduce saturations, thresholds, sparsity, etc.**
+    Depending on the design, activations can impose thresholds (e.g. zeroing out negatives), encourage sparse activations, or selectively “turn off” neurons. That helps in modularity and representational efficiency.
+5. **Universal approximation**
+    A theoretical guarantee: networks with at least one hidden layer using non‐polynomial activation functions (like sigmoid, ReLU) can approximate any continuous function on a compact domain (given enough neurons). This is the _universal approximation theorem_.
+### How activation function learns non linearity? Or What it means to learn nonlinearity? 
+Imagine trying to approximate a curve (say, a sine wave) using only straight line segments. If you only use straight lines with no ability to bend, your approximation is very limited. But if you allow “bend points” — nonlinear segments — you can piecewise fit the curve more closely.
 
+In a neural network:
+- The weights + biases define linear transforms.
+- The activation functions let you “bend,” “threshold,” or “wrap” the signal, injecting nonlinearity.
+Thus, each neuron becomes a little nonlinear unit, and stacking many lets you carve out very flexible shapes in input space.
+
+![[Pasted image 20250927073413.png]]
+
+![[Pasted image 20250927073316.png]]
+_MLP with tanh/ReLU hidden layer: bends and warps input space → learns the oscillations and tracks the sine wave much more closely._
+### How does the network learn this nonlinearity?
+- Each hidden neuron applies:
+    $a = \sigma(Wx + b)$
+    - Linear part $Wx+b$= projection
+    - Nonlinear part $\sigma = bend / warp$
+- With training (via gradient descent), the network adjusts weights $W, b$ so that after nonlinear activations, the transformed space **separates classes**.
+- Stacking layers = multiple nonlinear transformations → increasingly complex “warping” of input space.
+---
+## Different activation functions.
+Choosing a good activation function matters for learning dynamics, expressivity, and convergence.
+![[Pasted image 20250927070110.png]]
+
+# ReLU (Rectified Linear Unit)
+
+$\mathrm{ReLU}(x) = \max(0, x)$
+So:
+- If $x > 0$, output = x.
+- If $x \le 0$, output = 0.
+- Derivative: $\mathrm{ReLU}’(x)$ = 1 for x > 0, and 0 for x < 0.
+### Key properties
+1. **Sparse activation / “natural sparsity”**
+    Because negative inputs map to zero, many neurons will output zero, effectively “inactive,” which leads to a sparser representation and can help with efficiency or preventing overfitting. 
+2. **Computational simplicity**
+    It’s extremely cheap: just a threshold, no exponentials, no divisions, etc. 
+3. **Better gradient flow in deep networks**
+    Because the positive side is linear, gradient doesn’t vanish as layers increase. Empirically, using ReLU often accelerates convergence in deep nets compared to sigmoid/tanh. 
+4. **Biological plausibility (loose analogy)**
+    Some argue that neurons in biological brains don’t produce negative firing rates, so a rectified function is more plausible, though this is only a rough analogy.
+### Limitations & pitfalls (“Dying ReLU”, etc.)
+- **Dead / “dying ReLU”**: If a neuron’s input becomes negative consistently and the weights update push it further negative, it can become stuck outputting zero forever (gradient = 0). Then it never recovers. 
+- **No negative output**: This means the activation is not zero-centered, which sometimes slows convergence or introduces bias shift. (Because all activations are nonnegative, subsequent layers may have biased inputs.) 
+- **Unbounded output**: Because for large x, output = x, there is no explicit bound, which may allow extremely large activations that need normalization (batch norm, etc.).
+> Because of these, many ReLU variants exist (Leaky ReLU, PReLU, etc.) that attempt to mitigate dying ReLUs.
 ---
 # Sigmoid function
-
 $$\sigma(z) = \frac{1}{1+e^{-z}}$$
 - Output of sigmoid is always in (0,1).
 - Often interpreted as the probability of the “positive” class.
