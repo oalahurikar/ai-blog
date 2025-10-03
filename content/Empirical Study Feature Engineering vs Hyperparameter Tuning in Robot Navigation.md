@@ -40,36 +40,20 @@ Think of it like a speed limit for your model:
 ## 🔬 How to Calculate Information Ceiling
 ### Method 1: Theoretical Estimation
 ```python
-
 def estimate_information_ceiling(features, problem_complexity):
-
 """
-
 Estimate maximum achievable accuracy based on available information.
-
 """
-
 # Perfect information would give 100% accuracy
-
 perfect_accuracy = 1.0
-
 # Missing information creates irreducible error
-
 missing_goal_info = 0.15 # 15% error from not knowing goal location
-
 missing_global_info = 0.05 # 5% error from limited perception
-
 stochastic_component = 0.03 # 3% error from problem complexity
-
 irreducible_error = missing_goal_info + missing_global_info + stochastic_component
-
 # Information ceiling = perfect accuracy - irreducible error
-
 ceiling = perfect_accuracy - irreducible_error
-
 return ceiling
-
-  
 
 # Our case:
 
@@ -86,25 +70,17 @@ print(f"Estimated ceiling: {ceiling:.1%}") # ~77%
 ```
 
 ### Method 2: Empirical Measurement  
-
 ```python
-
 def measure_empirical_ceiling(model_accuracy, convergence_rate):
 
 """
-
 Estimate ceiling based on training convergence patterns.
-
 """
 
 # If model converges quickly and plateaus, it's near ceiling
-
 if convergence_rate > 0.95: # 95% of learning in first half of training
-
 ceiling = model_accuracy * 1.02 # 2% headroom
-
 else:
-
 ceiling = model_accuracy * 1.05 # 5% headroom
 
 return ceiling
@@ -235,21 +211,14 @@ We systematically tested:
 
   
 
-| Hyperparameter | Baseline | Tested Values | Best Result |
-
-|---------------|----------|---------------|-------------|
-
-| Learning Rate | 0.0005 | 0.0003, 0.0007, 0.001 | 0.0007 |
-
-| Dropout | 0.1 | 0.2, 0.3, 0.4 | 0.2 |
-
-| Batch Size | 32 | 16, 64, 128 | 64 |
-
-| Hidden Layers | 64→32 | 128→64, 32→16 | 64→32 |
-
-| Weight Decay | 0.0 | 0.0001, 0.001 | 0.0001 |
-
-| LR Scheduler | None | Step, Cosine | Step |
+| Hyperparameter | Baseline | Tested Values         | Best Result |
+| -------------- | -------- | --------------------- | ----------- |
+| Learning Rate  | 0.0005   | 0.0003, 0.0007, 0.001 | 0.0007      |
+| Dropout        | 0.1      | 0.2, 0.3, 0.4         | 0.2         |
+| Batch Size     | 32       | 16, 64, 128           | 64          |
+| Hidden Layers  | 64→32    | 128→64, 32→16         | 64→32       |
+| Weight Decay   | 0.0      | 0.0001, 0.001         | 0.0001      |
+| LR Scheduler   | None     | Step, Cosine          | Step        |
 
   
 
@@ -625,7 +594,8 @@ search_space = {
 
 ```
 
-  
+    
+
 
 ---
 
@@ -872,21 +842,13 @@ For researchers: this controlled experiment provides a template for measuring th
   
 
 | Configuration | Train Acc | Val Acc | Test Acc | Time (min) |
-
 |---------------|-----------|---------|----------|------------|
-
 | Baseline (9 features) | 50.0% | 50.0% | 50.0% | 2.1 |
-
 | Enhanced (21 features) | 80.9% | 76.7% | 76.8% | 2.3 |
-
 | + LR=0.0007 | 79.2% | 77.1% | 77.0% | 2.3 |
-
 | + Dropout=0.2 | 78.5% | 77.3% | 77.2% | 2.4 |
-
 | + Batch=64 | 78.1% | 77.5% | 77.4% | 2.1 |
-
 | + Weight Decay | 77.8% | 77.6% | 77.5% | 2.4 |
-
 | + LR Scheduler | 77.5% | 77.8% | 77.7% | 2.6 |
 
   
